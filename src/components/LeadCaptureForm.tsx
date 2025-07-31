@@ -191,6 +191,8 @@ const LeadCaptureForm = () => {
                     <option value="slow-site">Slow website performance</option>
                     <option value="integration">System integration issues</option>
                     <option value="custom-features">Need custom features</option>
+                    <option value="shopify-apps">Shopify custom app development</option>
+                    <option value="magento-hyva">Magento Hyva theme development</option>
                     <option value="automation">Manual processes</option>
                     <option value="scaling">Scaling difficulties</option>
                     <option value="migration">Platform migration</option>

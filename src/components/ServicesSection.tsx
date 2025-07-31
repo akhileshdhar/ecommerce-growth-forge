@@ -20,11 +20,25 @@ const services = [
     popular: false,
   },
   {
+    icon: ShoppingCart,
+    title: "Shopify Custom App Development",
+    description: "Build powerful custom Shopify apps and integrations to extend your store's functionality and automate workflows.",
+    features: ["Custom Shopify Apps", "Private Apps", "Public App Store", "Shopify Plus Solutions"],
+    popular: true,
+  },
+  {
+    icon: Workflow,
+    title: "Magento & Hyva Theme Development",
+    description: "Specialized development for Magento with Hyva theme expertise for lightning-fast, modern storefronts.",
+    features: ["Hyva Theme Customization", "Magento 2 Development", "Performance Optimization", "PWA Solutions"],
+    popular: true,
+  },
+  {
     icon: Workflow,
     title: "App Integration & APIs",
     description: "Seamlessly connect your existing tools and platforms for unified operations and improved efficiency.",
     features: ["Third-party APIs", "Webhook Setup", "Data Sync", "Process Automation"],
-    popular: true,
+    popular: false,
   },
   {
     icon: Zap,
@@ -34,24 +48,10 @@ const services = [
     popular: false,
   },
   {
-    icon: ShoppingCart,
-    title: "Shopify/Magento Development",
-    description: "Expert development and customization for Shopify, Magento, and other eCommerce platforms.",
-    features: ["Theme Development", "App Development", "Custom Checkout", "Migration Services"],
-    popular: true,
-  },
-  {
     icon: Smartphone,
     title: "Headless Commerce",
     description: "Future-proof your business with headless architecture for ultimate flexibility and performance.",
     features: ["JAMstack Solutions", "API-First Design", "Multi-channel Ready", "Progressive Web Apps"],
-    popular: false,
-  },
-  {
-    icon: Database,
-    title: "Backend Automation",
-    description: "Automate repetitive tasks and streamline your operations with intelligent backend solutions.",
-    features: ["Inventory Management", "Order Processing", "Email Automation", "Analytics Dashboard"],
     popular: false,
   },
 ];
@@ -105,8 +105,8 @@ const ServicesSection = () => {
                     ))}
                   </ul>
                   
-                  <Button variant="ghost" className="w-full group">
-                    Learn More
+                  <Button variant="ghost" className="w-full group" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+                    Get Quote
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </div>

@@ -21,7 +21,7 @@ const Header = () => {
           <a href="#about" className="text-foreground/80 hover:text-foreground transition-colors">
             About
           </a>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
             Contact Us
           </Button>
         </nav>
