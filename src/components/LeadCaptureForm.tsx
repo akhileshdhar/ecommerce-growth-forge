@@ -2,229 +2,178 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  CheckCircle, 
-  Mail, 
-  Phone, 
-  Building, 
-  MessageSquare,
-  Users
-} from "lucide-react";
+import { CheckCircle, Send, MessageSquare } from "lucide-react";
 
 const LeadCaptureForm = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    revenue: "",
-    challenge: "",
-    message: ""
+    companyName: '',
+    contactName: '',
+    email: '',
+    phone: '',
+    website: '',
+    platform: '',
+    revenue: '',
+    challenge: '',
+    timeline: '',
+    budget: '',
+    description: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "Thank you for your interest!",
-      description: "We'll contact you within 24 hours to discuss your project.",
-    });
-    
-    setFormData({
-      name: "",
-      email: "",
-      company: "",
-      phone: "",
-      revenue: "",
-      challenge: "",
-      message: ""
-    });
-    setIsSubmitting(false);
+    try {
+      const leadScore = calculateLeadScore(formData);
+      console.log('Qualified Lead:', { ...formData, leadScore });
+      
+      toast({
+        title: "Strategy Call Scheduled! 🎉",
+        description: `High-priority lead detected (${leadScore}% match). Our senior consultant will contact you within 2 hours.`,
+      });
+      
+      setFormData({
+        companyName: '', contactName: '', email: '', phone: '', website: '',
+        platform: '', revenue: '', challenge: '', timeline: '', budget: '', description: ''
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const benefits = [
-    "Free consultation & project assessment",
-    "Custom solution roadmap",
-    "No-obligation quote within 48 hours",
-    "Direct access to senior developers",
-  ];
+  const calculateLeadScore = (data: typeof formData): number => {
+    let score = 0;
+    if (data.revenue === 'over-10m') score += 30;
+    else if (data.revenue === '5m-10m') score += 25;
+    else if (data.revenue === '1m-5m') score += 20;
+    if (data.budget === 'over-100k') score += 25;
+    else if (data.budget === '50k-100k') score += 20;
+    if (['custom-features', 'shopify-apps', 'magento-hyva'].includes(data.challenge)) score += 20;
+    if (data.timeline === 'asap') score += 15;
+    return Math.min(score, 100);
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
   return (
-    <section id="contact" className="py-20 bg-primary/5">
-      <div className="container">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Left column - Benefits */}
-          <div className="space-y-8">
-            <div>
-              <Badge variant="secondary" className="mb-4">
-                <Users className="h-3 w-3 mr-1" />
-                Get Started Today
-              </Badge>
-              <h2 className="text-3xl lg:text-5xl font-bold mb-6">
-                Ready to Scale Your
-                <span className="bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                  {" "}eCommerce Business?
-                </span>
-              </h2>
-              <p className="text-xl text-muted-foreground">
-                Get a free consultation with our eCommerce experts and discover how we can help 
-                you increase revenue, improve performance, and automate your operations.
-              </p>
-            </div>
-            
-            <div className="space-y-4">
-              {benefits.map((benefit, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <CheckCircle className="h-5 w-5 text-success" />
-                  <span className="text-foreground">{benefit}</span>
-                </div>
-              ))}
-            </div>
-            
-            <Card className="p-6 bg-gradient-to-r from-success/5 to-success/10 border-success/20">
-              <div className="text-center">
-                <h3 className="font-semibold text-success mb-2">⚡ Fast Response Guarantee</h3>
-                <p className="text-sm text-muted-foreground">
-                  We respond to all inquiries within 2 hours during business hours
-                </p>
-              </div>
-            </Card>
+    <section id="contact" className="py-24 lg:py-32 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-premium/5" />
+      
+      <div className="container relative">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center space-y-8 mb-16">
+            <Badge variant="outline" className="mx-auto px-6 py-3 text-base font-medium backdrop-blur-sm border border-primary/20">
+              <MessageSquare className="h-4 w-4 mr-2 text-primary" />
+              Exclusive Strategy Session
+            </Badge>
+            <h2 className="text-4xl lg:text-6xl font-bold leading-tight">
+              Claim Your
+              <span className="block bg-gradient-to-r from-primary to-premium bg-clip-text text-transparent">
+                $2,500 Strategy Call
+              </span>
+              <span className="text-2xl lg:text-3xl font-normal text-muted-foreground">
+                (FREE for Qualified Businesses)
+              </span>
+            </h2>
           </div>
-          
-          {/* Right column - Form */}
-          <Card className="shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-center">Get Your Free Consultation</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Full Name *</label>
+
+          <Card className="shadow-2xl bg-card/95 backdrop-blur-sm border-2 border-primary/20">
+            <div className="p-10">
+              <div className="mb-8 p-6 bg-gradient-to-r from-success/10 to-primary/10 rounded-xl border border-success/20">
+                <h3 className="text-lg font-semibold text-success mb-3">✨ Qualification Criteria:</h3>
+                <div className="grid md:grid-cols-2 gap-3 text-sm">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-success" />
+                    <span>$500K+ annual revenue</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-4 w-4 text-success" />
+                    <span>Serious growth intentions</span>
+                  </div>
+                </div>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <Label className="text-base font-semibold">Company Name *</Label>
                     <Input
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="John Smith"
+                      value={formData.companyName}
+                      onChange={(e) => handleInputChange('companyName', e.target.value)}
+                      placeholder="Your company name"
+                      className="h-12 text-lg"
                       required
                     />
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Email *</label>
+                  <div className="space-y-3">
+                    <Label className="text-base font-semibold">Your Name *</Label>
                     <Input
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="john@company.com"
+                      value={formData.contactName}
+                      onChange={(e) => handleInputChange('contactName', e.target.value)}
+                      placeholder="Your full name"
+                      className="h-12 text-lg"
                       required
                     />
                   </div>
                 </div>
-                
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Company Name *</label>
-                    <Input
-                      name="company"
-                      value={formData.company}
-                      onChange={handleInputChange}
-                      placeholder="Your Company Inc."
-                      required
-                    />
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <Label className="text-base font-semibold">Annual Revenue *</Label>
+                    <Select value={formData.revenue} onValueChange={(value) => handleInputChange('revenue', value)}>
+                      <SelectTrigger className="h-12 text-lg">
+                        <SelectValue placeholder="Select revenue range" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="500k-1m">$500K - $1M ⭐</SelectItem>
+                        <SelectItem value="1m-5m">$1M - $5M ⭐⭐</SelectItem>
+                        <SelectItem value="5m-10m">$5M - $10M ⭐⭐⭐</SelectItem>
+                        <SelectItem value="over-10m">Over $10M 🔥</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Phone Number</label>
-                    <Input
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="+1 (555) 123-4567"
-                    />
+                  <div className="space-y-3">
+                    <Label className="text-base font-semibold">Investment Budget *</Label>
+                    <Select value={formData.budget} onValueChange={(value) => handleInputChange('budget', value)}>
+                      <SelectTrigger className="h-12 text-lg">
+                        <SelectValue placeholder="Select budget range" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="25k-50k">$25K - $50K ⭐</SelectItem>
+                        <SelectItem value="50k-100k">$50K - $100K ⭐⭐</SelectItem>
+                        <SelectItem value="over-100k">Over $100K 🔥</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
-                
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Annual Revenue Range</label>
-                  <select
-                    name="revenue"
-                    value={formData.revenue}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-input rounded-md bg-background"
-                  >
-                    <option value="">Select range</option>
-                    <option value="under-100k">Under $100K</option>
-                    <option value="100k-500k">$100K - $500K</option>
-                    <option value="500k-1m">$500K - $1M</option>
-                    <option value="1m-5m">$1M - $5M</option>
-                    <option value="5m-10m">$5M - $10M</option>
-                    <option value="over-10m">Over $10M</option>
-                  </select>
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Primary Challenge</label>
-                  <select
-                    name="challenge"
-                    value={formData.challenge}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-input rounded-md bg-background"
-                  >
-                    <option value="">Select primary challenge</option>
-                    <option value="slow-site">Slow website performance</option>
-                    <option value="integration">System integration issues</option>
-                    <option value="custom-features">Need custom features</option>
-                    <option value="shopify-apps">Shopify custom app development</option>
-                    <option value="magento-hyva">Magento Hyva theme development</option>
-                    <option value="automation">Manual processes</option>
-                    <option value="scaling">Scaling difficulties</option>
-                    <option value="migration">Platform migration</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Project Details</label>
-                  <Textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    placeholder="Tell us about your project, goals, and any specific requirements..."
-                    className="min-h-[100px]"
-                  />
-                </div>
-                
+
                 <Button 
                   type="submit" 
+                  variant="premium" 
                   size="lg" 
-                  className="w-full" 
+                  className="w-full text-xl font-bold h-16"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Submitting..." : "Get Free Consultation"}
+                  {isSubmitting ? (
+                    <>Processing...</>
+                  ) : (
+                    <>
+                      <Send className="mr-3 h-5 w-5" />
+                      Claim My $2,500 Strategy Session (FREE)
+                    </>
+                  )}
                 </Button>
-                
-                <p className="text-xs text-muted-foreground text-center">
-                  By submitting this form, you agree to our privacy policy. We never share your information.
-                </p>
               </form>
-            </CardContent>
+            </div>
           </Card>
         </div>
       </div>

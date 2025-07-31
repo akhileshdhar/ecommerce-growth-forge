@@ -2,51 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 215 25% 27%;
-
+    --background: 210 40% 98%;
+    --foreground: 230 25% 7%;
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
-
+    --card-foreground: 230 25% 7%;
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
-
-    --primary: 220 90% 56%;
+    --popover-foreground: 230 25% 7%;
+    --primary: 264 83% 57%;
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 214 32% 91%;
-    --secondary-foreground: 215 25% 27%;
-
-    --muted: 214 32% 91%;
-    --muted-foreground: 215 13% 65%;
-
-    --accent: 220 90% 56%;
-    --accent-foreground: 0 0% 100%;
-
-    /* Custom design tokens for eCommerce landing page */
-    --primary-gradient: linear-gradient(135deg, hsl(220 90% 56%), hsl(230 85% 65%));
-    --hero-gradient: linear-gradient(135deg, hsl(220 90% 56% / 0.1), hsl(230 85% 65% / 0.05));
-    --success: 150 80% 42%;
+    --primary-glow: 264 70% 65%;
+    --secondary: 260 15% 95%;
+    --secondary-foreground: 230 25% 7%;
+    --muted: 260 15% 96%;
+    --muted-foreground: 230 15% 45%;
+    --accent: 295 100% 94%;
+    --accent-foreground: 295 100% 15%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 260 15% 88%;
+    --input: 260 15% 88%;
+    --ring: 264 83% 57%;
+    --radius: 1rem;
+    --success: 149 80% 40%;
     --success-foreground: 0 0% 100%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 100%;
-    --info: 200 95% 50%;
+    --success-glow: 149 65% 50%;
+    --warning: 35 95% 58%;
+    --warning-foreground: 35 100% 5%;
+    --info: 200 98% 39%;
     --info-foreground: 0 0% 100%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --premium: 280 100% 70%;
+    --premium-foreground: 0 0% 100%;
+    --premium-glow: 280 85% 80%;
+    
+    /* Enhanced gradients and effects */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-premium: linear-gradient(135deg, hsl(var(--premium)), hsl(var(--premium-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary) / 0.1), hsl(var(--premium) / 0.05));
+    --shadow-elegant: 0 20px 40px -12px hsl(var(--primary) / 0.15);
+    --shadow-glow: 0 0 60px hsl(var(--primary-glow) / 0.3);
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
